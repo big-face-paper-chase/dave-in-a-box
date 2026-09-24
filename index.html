@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>dave-in-a-box — a live-coding DJ toy</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥁</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="logo">
+    <span class="logo-main">DAVE-IN-A-BOX</span>
+    <span class="logo-sub">a live-coding DJ toy &mdash; pre-built blocks, mangled live. no talent required.</span>
+  </div>
+  <div class="transport">
+    <button id="playBtn" class="play-btn">▶ PLAY</button>
+    <div class="bpm-wrap">
+      <label>BPM <span id="bpmVal">92</span></label>
+      <input type="range" id="bpm" min="70" max="180" value="92">
+    </div>
+    <div id="stepDots" class="step-dots"></div>
+  </div>
+</header>
+
+<div id="status" class="status">press PLAY. then break things.</div>
+
+<section class="presets">
+  <h2>THE BOX <span class="hint">— pre-built blocks. keys 1–8 fire them.</span></h2>
+  <div id="presetGrid" class="preset-grid"></div>
+</section>
+
+<main class="channels">
+  <section class="channel" data-ch="drums">
+    <div class="ch-head">
+      <h3>DRUMS <span class="ch-sub">hit things</span></h3>
+      <div class="ch-btns">
+        <button class="mute-btn" data-ch="drums">MUTE</button>
+        <button class="clear-btn" data-ch="drums" title="empty the box">×</button>
+      </div>
+    </div>
+    <textarea id="code-drums" spellcheck="false"></textarea>
+  </section>
+
+  <section class="channel" data-ch="bass">
+    <div class="ch-head">
+      <h3>BASS <span class="ch-sub">rumble business</span></h3>
+      <div class="ch-btns">
+        <button class="mute-btn" data-ch="bass">MUTE</button>
+        <button class="clear-btn" data-ch="bass" title="empty the box">×</button>
+      </div>
+    </div>
+    <textarea id="code-bass" spellcheck="false"></textarea>
+  </section>
+
+  <section class="channel" data-ch="keys">
+    <div class="ch-head">
+      <h3>KEYS <span class="ch-sub">fancy sprinkles</span></h3>
+      <div class="ch-btns">
+        <button class="mute-btn" data-ch="keys">MUTE</button>
+        <button class="clear-btn" data-ch="keys" title="empty the box">×</button>
+      </div>
+    </div>
+    <textarea id="code-keys" spellcheck="false"></textarea>
+  </section>
+</main>
+
+<section class="fxbar">
+  <div class="fx">
+    <label>MUFFLE <span id="cutoffVal">16k</span></label>
+    <input type="range" id="cutoff" min="200" max="16000" value="16000">
+  </div>
+  <div class="fx">
+    <label>SPACE ECHO <span id="delayVal">22%</span></label>
+    <input type="range" id="delayAmt" min="0" max="60" value="22">
+  </div>
+  <div class="fx">
+    <label>SWING <span id="swingVal">0%</span></label>
+    <input type="range" id="swing" min="0" max="60" value="0">
+  </div>
+  <div class="fx-btns">
+    <button id="mutateBtn" class="sticker teal" title="randomly mangle every channel">🎲 MUTATE</button>
+    <button id="airhornBtn" class="sticker orange" title="you know what this does">📯 AIRHORN</button>
+    <button id="sirenBtn" class="sticker yellow" title="panic!">🚨 DUB SIREN</button>
+  </div>
+</section>
+
+<footer class="cheatsheet">
+  <h2>HOW TO DRIVE IT</h2>
+  <div class="cheat-grid">
+    <div>
+      <b>drums</b> — one char per 16th note. <code>x</code> hit, <code>X</code> ACCENT, <code>.</code> rest.
+      <pre>drums({
+  kick:  "x...x...x...x...",
+  snare: "....x.......x...",
+  chat:  "x.xxx.xxx.xxxxx."
+})</pre>
+      drum names: <code>kick snare clap chat ohat perc</code>
+    </div>
+    <div>
+      <b>bass / keys</b> — one token per 16th note. note names or <code>.</code> rest.
+      <pre>bass("c2 . c2 eb2 . g1 . .",
+  { wave: "sawtooth",
+    cutoff: 700, decay: 0.3 })</pre>
+      waves: <code>sawtooth square triangle sine</code>
+    </div>
+    <div>
+      <b>rules of the box</b>
+      <ul>
+        <li>each box holds <b>one expression</b> — it hot-reloads as you type</li>
+        <li>strings can be any length — 16 steps = 1 bar, 32 = 2 bars, go wild</li>
+        <li><code>space</code> play/stop · <code>1–8</code> presets · <code>a</code> airhorn · <code>s</code> siren</li>
+        <li>presets are just code — fire one, then mangle it. that's the whole sport.</li>
+      </ul>
+    </div>
+  </div>
+  <p class="credit">built for chase, in the spirit of DJ Dave — pre-built blocks, performed live.
+  when you outgrow the box, the real thing is <a href="https://strudel.cc" target="_blank" rel="noopener">strudel</a>.</p>
+</footer>
+
+<script src="js/engine.js"></script>
+<script src="js/presets.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
